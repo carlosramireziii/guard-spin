@@ -33,14 +33,23 @@ describe Guard::Spin do
   end
 
   describe '.run_on_change' do
-    it "calls Runner.run with file name" do
-      subject.runner.should_receive(:run).with('file_name.rb')
-      subject.run_on_change('file_name.rb')
+    context 'with :reload parameter' do
+      it 'calls self.reload' do
+        subject.should_receive(:reload)
+        subject.run_on_change(:reload)
+      end
     end
 
-    it "calls Runner.run with paths" do
-      subject.runner.should_receive(:run).with(['spec/controllers', 'spec/requests'])
-      subject.run_on_change(['spec/controllers', 'spec/requests'])
+    context 'with path parameter' do
+      it "calls Runner.run with file name" do
+        subject.runner.should_receive(:run).with('file_name.rb')
+        subject.run_on_change('file_name.rb')
+      end
+
+      it "calls Runner.run with paths" do
+        subject.runner.should_receive(:run).with(['spec/controllers', 'spec/requests'])
+        subject.run_on_change(['spec/controllers', 'spec/requests'])
+      end
     end
   end
 

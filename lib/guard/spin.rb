@@ -26,8 +26,12 @@ module Guard
       runner.run_all
     end
 
-    def run_on_change(paths)
-      runner.run(paths)
+    def run_on_change(paths_or_command)
+      unless paths_or_command == :reload
+        runner.run(paths_or_command)
+      else
+        self.reload
+      end
     end
 
     def stop
